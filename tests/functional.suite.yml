@@ -11,3 +11,11 @@ modules:
         - \Helper\Functional
         - Laravel5:
             environment_file: .env
+    config:
+        Db:
+            dsn: 'mysql:host=localhost;dbname=homestead'
+            user: 'homestead'
+            password: 'secret'
+            dump: 'app/tests/_data/dump.sql'
+            populate: true
+            cleanup: true
