@@ -11,14 +11,16 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/', 'ViewController@getHomepage');
+Route::get('/sandbox', 'ViewController@getSandbox');
 
-	Log::info('Write something');
+// Internal
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/dashboard','ViewController@getDashboard');
+    Route::get('/ticket/create', 'ViewController@getTicketNew');
+
+    Route::post('/ticket/create', 'TicketController@create');
 });
-
-Route::get('dashboard', ['middleware' => 'auth', function() {
-    return 'You are now logged in';
-}]);
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');

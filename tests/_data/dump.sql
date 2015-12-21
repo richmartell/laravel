@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.19-1~exp1ubuntu2)
 # Database: homestead
-# Generation Time: 2015-12-21 10:40:55 +0000
+# Generation Time: 2015-12-21 13:06:05 +0000
 # ************************************************************
 
 
@@ -33,6 +33,20 @@ CREATE TABLE `categories` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+
+INSERT INTO `categories` (`id`, `name`, `created_at`, `updated_at`)
+VALUES
+	(1,'Post fault','0000-00-00 00:00:00','0000-00-00 00:00:00'),
+	(2,'Homecharge fault','0000-00-00 00:00:00','0000-00-00 00:00:00'),
+	(3,'Polar issue','0000-00-00 00:00:00','0000-00-00 00:00:00'),
+	(4,'Source London fault','0000-00-00 00:00:00','0000-00-00 00:00:00'),
+	(5,'Source East fault','0000-00-00 00:00:00','0000-00-00 00:00:00'),
+	(6,'Midlands PIP fault','0000-00-00 00:00:00','0000-00-00 00:00:00');
+
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table migrations
@@ -53,7 +67,8 @@ VALUES
 	('2014_10_12_000000_create_users_table',1),
 	('2014_10_12_100000_create_password_resets_table',1),
 	('2015_12_21_092636_OtherTables',1),
-	('2015_12_21_094532_PostTable',1);
+	('2015_12_21_094532_PostTable',1),
+	('2015_12_21_121736_FixCategoryTable',1);
 
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -104,12 +119,14 @@ CREATE TABLE `tickets` (
   `customer_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `customer_address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `customer_tel` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `category` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `post_serial` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user_created` int(11) NOT NULL,
-  `user_assigned` int(11) NOT NULL,
+  `user_assigned` int(11) DEFAULT NULL,
   `assigned_at` date NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -140,7 +157,7 @@ LOCK TABLES `users` WRITE;
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`)
 VALUES
-	(1,'Wayne','wayne@chargemasterplc.com','$2y$10$zb4hXrkMf1Qn5xbBb8oF6.EcTaDBpjktV03Wim7uAqwvOvr0fRQNq',NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00');
+	(1,'Wayne','wayne@chargemasterplc.com','$2y$10$RlR.qe1xHQyr7y7OijiUQ.NeMCulHn9m7VPUZwGxB7XW3uRnvkr3W',NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00');
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;

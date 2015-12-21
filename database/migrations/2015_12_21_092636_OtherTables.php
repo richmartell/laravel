@@ -22,7 +22,7 @@ class OtherTables extends Migration
             $table->string('status');
             $table->string('description');
             $table->integer('user_created');
-            $table->integer('user_assigned');
+            $table->integer('user_assigned')->nullable();
             $table->date('assigned_at');
             $table->timestamps();
         });

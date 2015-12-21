@@ -23,7 +23,7 @@ class AuthCest
         $I->fillField('password_confirmation', 'secret');
         $I->click('Register');
         $I->seeCurrentUrlEquals('/dashboard');
-        $I->see('You are now logged in');
+        $I->see('This is the dashboard');
         $I->seeAuthentication();
     }
 
@@ -38,7 +38,7 @@ class AuthCest
         $I->click('Register');
         $I->dontSeeCurrentUrlEquals('/dashboard');
         $I->seeCurrentUrlEquals('/auth/register');
-        //$I->see('That email is already in use'); //should see error about dupe email
+        $I->see('The email has already been taken.'); //should see error about dupe email
         $I->dontSeeAuthentication();
     }
 
@@ -50,7 +50,7 @@ class AuthCest
         $I->fillField('password', 'secret');
         $I->click('Login');
         $I->seeCurrentUrlEquals('/dashboard');
-        $I->see('You are now logged in');
+        $I->see('This is the dashboard');
     }
 
     public function checkUserRedirectedToLoginWhenNotAuthd(FunctionalTester $I)
@@ -63,17 +63,38 @@ class AuthCest
 
     public function loginFailsWhenEmailIsIncorrect(FunctionalTester $I)
     {
-
+        $I->amOnPage('/auth/login');
+        $I->see('Login'); 
+        $I->fillField('email', 'incorrectemail@chargemasterplc.com');
+        $I->fillField('password', 'secret');
+        $I->click('Login');
+        $I->seeCurrentUrlEquals('/auth/login');
+        $I->dontSeeAuthentication();
+        $I->see('These credentials do not match our records.');
     }
 
     public function loginFailsWhenNoPasswordEntered(FunctionalTester $I)
-    {
-
+    {  
+        $I->amOnPage('/auth/login');
+        $I->see('Login'); 
+        $I->fillField('email', 'wayne@chargemasterplc.com');
+        $I->fillField('password', '');
+        $I->click('Login');
+        $I->seeCurrentUrlEquals('/auth/login');
+        $I->dontSeeAuthentication();
+        $I->see('The password field is required.');
     }
 
     public function loginFailsWhenPasswordIncorrect(FunctionalTester $I)
     {
-
+        $I->amOnPage('/auth/login');
+        $I->see('Login'); 
+        $I->fillField('email', 'wayne@chargemasterplc.com');
+        $I->fillField('password', 'incorrect');
+        $I->click('Login');
+        $I->seeCurrentUrlEquals('/auth/login');
+        $I->dontSeeAuthentication();
+        $I->see('These credentials do not match our records.');
     }
 
 }
